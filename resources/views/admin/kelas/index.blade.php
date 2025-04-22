@@ -39,7 +39,7 @@
                     @endif
 
                     <div class="mb-3">
-                        <form action="{{ route('kelas.index') }}" method="GET" class="d-flex">
+                        <form action="{{ route('admin.kelas.index') }}" method="GET" class="d-flex">
                             <input type="text" name="search" class="form-control me-2" placeholder="Cari berdasarkan nama kelas atau peryataan..." value="{{ request('search') }}">
                             <button type="submit" class="btn btn-outline-primary">Cari</button>
                         </form>
@@ -51,7 +51,7 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Nama Kelas</th>
-                                    <th>Peryataan</th>
+                                    <th>Deskripsi</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -65,7 +65,7 @@
                                             <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editKelasModal{{ $item->id }}">
                                                 Edit
                                             </button>
-                                            <form action="{{ route('kelas.destroy', $item->id) }}" method="POST" class="d-inline">
+                                            <form action="{{ route('admin.kelas.destroy', $item->id) }}" method="POST" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus kelas ini?')">
@@ -83,7 +83,7 @@
                                                     <h5 class="modal-title">Edit Kelas</h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                                 </div>
-                                                <form action="{{ route('kelas.update', $item->id) }}" method="POST" id="editForm{{ $item->id }}">
+                                                <form action="{{ route('admin.kelas.update', $item->id) }}" method="POST" id="editForm{{ $item->id }}">
                                                     @csrf
                                                     @method('PUT')
                                                     <div class="modal-body">
@@ -97,7 +97,7 @@
                                                             @enderror
                                                         </div>
                                                         <div class="mb-3">
-                                                            <label for="peryataan{{ $item->id }}" class="form-label">Peryataan</label>
+                                                            <label for="peryataan{{ $item->id }}" class="form-label">Deskripsi</label>
                                                             <input type="text" class="form-control @error('peryataan') is-invalid @enderror" 
                                                                    id="peryataan{{ $item->id }}" name="peryataan" 
                                                                    value="{{ old('peryataan', $item->peryataan) }}" required>
@@ -132,7 +132,7 @@
                 <h5 class="modal-title">Tambah Kelas</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form action="{{ route('kelas.store') }}" method="POST">
+            <form action="{{ route('admin.kelas.store') }}" method="POST">
                 @csrf
                 <div class="modal-body">
                     <div class="mb-3">
@@ -145,7 +145,7 @@
                         @enderror
                     </div>
                     <div class="mb-3">
-                        <label for="peryataan" class="form-label">Peryataan</label>
+                        <label for="peryataan" class="form-label">Deskripsi</label>
                         <input type="text" class="form-control @error('peryataan') is-invalid @enderror" 
                                id="peryataan" name="peryataan" 
                                value="{{ old('peryataan') }}" required>

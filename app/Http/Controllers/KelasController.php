@@ -21,7 +21,7 @@ class KelasController extends Controller
                         ->orWhere('peryataan', 'like', "%{$search}%");
         })->get();
         
-        return view('kelas.index', compact('kelas'));
+        return view('admin.kelas.index', compact('kelas'));
     }
 
     /**
@@ -38,7 +38,7 @@ class KelasController extends Controller
     public function store(StoreKelasRequest $request)
     {
         Kelas::create($request->all());
-        return redirect()->route('kelas.index')->with('success', 'Kelas berhasil ditambahkan');
+        return redirect()->route('admin.kelas.index')->with('success', 'Kelas berhasil ditambahkan');
     }
 
     /**
@@ -54,22 +54,23 @@ class KelasController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'namakelas' => 'required|string|max:255',
+            'peryataan' => 'required|string'
+        ]);
+
         try {
             $kelas = Kelas::findOrFail($id);
-            
-            $validated = $request->validate([
-                'namakelas' => 'required|string|max:255',
-                'peryataan' => 'required|string|max:255'
+            $kelas->update([
+                'namakelas' => $request->namakelas,
+                'peryataan' => $request->peryataan
             ]);
 
-            $kelas->update($validated);
-            
-            return redirect()->route('kelas.index')
-                ->with('success', 'Kelas berhasil diubah');
+            return redirect()->route('admin.kelas.index')
+                ->with('success', 'Kelas berhasil diperbarui');
         } catch (\Exception $e) {
             return redirect()->back()
-                ->withInput()
-                ->with('error', 'Terjadi kesalahan saat mengubah kelas: ' . $e->getMessage());
+                ->with('error', 'Terjadi kesalahan saat memperbarui kelas');
         }
     }
 
@@ -89,7 +90,7 @@ class KelasController extends Controller
 
             $kelas->delete();
             
-            return redirect()->route('kelas.index')
+            return redirect()->route('admin.kelas.index')
                 ->with('success', 'Kelas berhasil dihapus');
         } catch (\Exception $e) {
             return redirect()->back()

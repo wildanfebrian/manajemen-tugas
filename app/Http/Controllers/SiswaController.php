@@ -19,7 +19,7 @@ class SiswaController extends Controller
             return $query->where('nama', 'like', "%{$search}%")
                         ->orWhere('nis', 'like', "%{$search}%")
                         ->orWhereHas('kelas', function($query) use ($search) {
-                            $query->where('nama_kelas', 'like', "%{$search}%");
+                            $query->where('namakelas', 'like', "%{$search}%");
                         });
         })->with('kelas')->get();
 
@@ -55,7 +55,7 @@ class SiswaController extends Controller
             'password' => bcrypt($request->password),
         ]);
 
-        return redirect()->route('siswa.index')
+        return redirect()->route('admin.siswa.index')
             ->with('success', 'Siswa berhasil ditambahkan');
     }
 
@@ -99,7 +99,7 @@ class SiswaController extends Controller
 
         $siswa->update($data);
 
-        return redirect()->route('siswa.index')
+        return redirect()->route('admin.siswa.index')
             ->with('success', 'Siswa berhasil diperbarui');
     }
 
@@ -110,7 +110,7 @@ class SiswaController extends Controller
     {
         $siswa->delete();
 
-        return redirect()->route('siswa.index')
+        return redirect()->route('admin.siswa.index')
             ->with('success', 'Siswa berhasil dihapus');
     }
 }

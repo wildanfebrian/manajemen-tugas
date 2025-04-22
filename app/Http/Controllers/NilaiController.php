@@ -6,6 +6,7 @@ use App\Models\Nilai;
 use App\Models\Siswa;
 use App\Models\Tugas;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class NilaiController extends Controller
 {
@@ -52,9 +53,16 @@ class NilaiController extends Controller
             'tanggal' => 'required|date',
         ]);
 
-        Nilai::create($request->all());
+        $data = $request->all();
+        // Convert date to timestamp
+        $data['tanggal'] = strtotime($data['tanggal']);
+        
+        // Set status to graded
+        $data['status'] = 'graded';
+        
+        Nilai::create($data);
 
-        return redirect()->route('nilai.index')
+        return redirect()->route('admin.nilai.index')
             ->with('success', 'Nilai berhasil ditambahkan');
     }
 
@@ -86,9 +94,22 @@ class NilaiController extends Controller
             'tanggal' => 'required|date',
         ]);
 
-        $nilai->update($request->all());
+        $data = $request->all();
+        // Convert date to timestamp
+        $data['tanggal'] = strtotime($data['tanggal']);
+        
+        // Set status to graded
+        $data['status'] = 'graded';
+        
+        // If this is a file submission being graded, store the original file path
+        if (!is_numeric($nilai->hasil) && isset($nilai->hasil)) {
+            // Keep track of the submission file in a separate field if needed
+            // or just leave it in the database for reference
+        }
+        
+        $nilai->update($data);
 
-        return redirect()->route('nilai.index')
+        return redirect()->route('admin.nilai.index')
             ->with('success', 'Nilai berhasil diperbarui');
     }
 
@@ -99,7 +120,35 @@ class NilaiController extends Controller
     {
         $nilai->delete();
 
-        return redirect()->route('nilai.index')
+        return redirect()->route('admin.nilai.index')
             ->with('success', 'Nilai berhasil dihapus');
+    }
+
+    /**
+     * Download a student's submission.
+     */
+    public function downloadSubmission($id)
+    {
+        try {
+            $nilai = Nilai::findOrFail($id);
+            
+            // Check if submission is a file path
+            if (is_numeric($nilai->hasil) || !$nilai->hasil) {
+                return redirect()->back()
+                    ->with('error', 'Tidak ada file yang dapat diunduh');
+            }
+            
+            // Check if file exists
+            if (!file_exists(storage_path('app/public/' . $nilai->hasil))) {
+                return redirect()->back()
+                    ->with('error', 'File tidak ditemukan');
+            }
+            
+            return response()->download(storage_path('app/public/' . $nilai->hasil));
+            
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Terjadi kesalahan saat mengunduh file: ' . $e->getMessage());
+        }
     }
 }

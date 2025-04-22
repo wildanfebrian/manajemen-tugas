@@ -19,19 +19,19 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('kelas.index') }}">Kelas</a>
+                        <a class="nav-link" href="{{ route('admin.kelas.index') }}">Kelas</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('mapel.index') }}">Mata Pelajaran</a>
+                        <a class="nav-link" href="{{ route('admin.mapel.index') }}">Mata Pelajaran</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('siswa.index') }}">Siswa</a>
+                        <a class="nav-link" href="{{ route('admin.siswa.index') }}">Siswa</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('tugas.index') }}">Tugas</a>
+                        <a class="nav-link" href="{{ route('admin.tugas.index') }}">Tugas</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('nilai.index') }}">Nilai</a>
+                        <a class="nav-link" href="{{ route('admin.nilai.index') }}">Nilai</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav">

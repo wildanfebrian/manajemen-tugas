@@ -20,7 +20,7 @@
                     @endif
 
                     <div class="mb-3">
-                        <form action="{{ route('siswa.index') }}" method="GET" class="d-flex">
+                        <form action="{{ route('admin.siswa.index') }}" method="GET" class="d-flex">
                             <input type="text" name="search" class="form-control me-2" placeholder="Cari berdasarkan nama, NIS, atau kelas..." value="{{ request('search') }}">
                             <button type="submit" class="btn btn-outline-primary">Cari</button>
                         </form>
@@ -43,12 +43,12 @@
                                         <td>{{ $key + 1 }}</td>
                                         <td>{{ $item->nis }}</td>
                                         <td>{{ $item->nama }}</td>
-                                        <td>{{ $item->kelas->nama_kelas }}</td>
+                                        <td>{{ $item->kelas->namakelas }}</td>
                                         <td>
                                             <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editSiswaModal{{ $item->id }}">
                                                 Edit
                                             </button>
-                                            <form action="{{ route('siswa.destroy', $item->id) }}" method="POST" class="d-inline">
+                                            <form action="{{ route('admin.siswa.destroy', $item->id) }}" method="POST" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus siswa ini?')">
@@ -66,7 +66,7 @@
                                                     <h5 class="modal-title">Edit Siswa</h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                                 </div>
-                                                <form action="{{ route('siswa.update', $item->id) }}" method="POST">
+                                                <form action="{{ route('admin.siswa.update', $item->id) }}" method="POST">
                                                     @csrf
                                                     @method('PUT')
                                                     <div class="modal-body">
@@ -75,7 +75,7 @@
                                                             <select class="form-select" id="kelas_id" name="kelas_id" required>
                                                                 @foreach($kelas as $k)
                                                                     <option value="{{ $k->id }}" {{ $item->kelas_id == $k->id ? 'selected' : '' }}>
-                                                                        {{ $k->nama_kelas }}
+                                                                        {{ $k->namakelas }}
                                                                     </option>
                                                                 @endforeach
                                                             </select>
@@ -119,7 +119,7 @@
                 <h5 class="modal-title">Tambah Siswa</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form action="{{ route('siswa.store') }}" method="POST">
+            <form action="{{ route('admin.siswa.store') }}" method="POST">
                 @csrf
                 <div class="modal-body">
                     <div class="mb-3">
@@ -127,7 +127,7 @@
                         <select class="form-select" id="kelas_id" name="kelas_id" required>
                             <option value="">Pilih Kelas</option>
                             @foreach($kelas as $k)
-                                <option value="{{ $k->id }}">{{ $k->nama_kelas }}</option>
+                                <option value="{{ $k->id }}">{{ $k->namakelas }}</option>
                             @endforeach
                         </select>
                     </div>

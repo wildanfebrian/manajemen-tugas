@@ -4,13 +4,13 @@
 <div class="container-fluid px-4">
     <h1 class="mt-4">Edit Kelas</h1>
     <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item"><a href="{{ route('kelas.index') }}">Kelas</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('admin.kelas.index') }}">Kelas</a></li>
         <li class="breadcrumb-item active">Edit</li>
     </ol>
 
     <div class="card mb-4">
         <div class="card-body">
-            <form action="{{ route('kelas.update', $kelas->id) }}" method="POST">
+            <form action="{{ route('admin.kelas.update', $kelas->id) }}" method="POST">
                 @csrf
                 @method('PUT')
                 
@@ -33,7 +33,7 @@
                 </div>
 
                 <div class="d-flex justify-content-between">
-                    <a href="{{ route('kelas.index') }}" class="btn btn-secondary">Kembali</a>
+                    <a href="{{ route('admin.kelas.index') }}" class="btn btn-secondary">Kembali</a>
                     <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                 </div>
             </form>

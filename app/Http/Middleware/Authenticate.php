@@ -12,11 +12,19 @@ class Authenticate extends Middleware
      */
     protected function redirectTo(Request $request): ?string
     {
-        if ($request->is('admin/*') || $request->is('kelas/*') || $request->is('mapel/*') || 
-            $request->is('siswa/*') || $request->is('tugas/*') || $request->is('nilai/*')) {
-            return route('admin.login');
+        if (! $request->expectsJson()) {
+            if ($request->is('admin') || $request->is('admin/*')) {
+                return route('admin.login');
+            }
+            
+            if ($request->is('siswa') || $request->is('siswa/*')) {
+                return route('siswa.login');
+            }
+            
+            // Default fallback to the login route we just created
+            return route('login');
         }
         
-        return route('login');
+        return null;
     }
 } 
